@@ -1,0 +1,33 @@
+{
+  "name": "mobile-shop",
+  "version": "1.0.0",
+  "description": "MERN mobile-shop",
+  "main": "server.js",
+  "scripts": {
+    "start": "npm-run-all --parallel server:dev client:dev",
+    "server:dev": "tsc && nodemon ./backend/server.js",
+    "client:dev": "npm start --prefix frontend",
+    "db:init": "tsc && node ./backend/seeder.js",
+    "db:clear": "tsc && node ./backend/seeder.js --clear"
+  },
+  "author": "ronny",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.11",
+    "@types/jsonwebtoken": "^8.5.1",
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.1",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^4.2.3"
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.0",
+    "nodemon": "^2.0.7"
+  }
+}
