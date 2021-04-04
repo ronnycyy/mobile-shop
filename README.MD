@@ -14,9 +14,9 @@
 6. 后台管理（todo）
 
 ## 技术栈
-1. Express + MongoDB 搭建后台服务
-2. React + Redux + Bootstrap 前端页面
-3. Typescript 提供良好的类型检查
+1. `Express` + `MongoDB` 搭建后台服务
+2. `React` + `Redux` + `Bootstrap` 前端页面
+3. `Typescript` 提供良好的类型检查
 
 ## 使用方法
 1. `git clone https://github.com/ronnycyy/mobile-shop.git`
