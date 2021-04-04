@@ -14,7 +14,7 @@
 6. 后台管理（todo）
 
 ## 技术栈
-1. `Express` + `MongoDB` 搭建后台服务
+1. `NodeJS` + `Express` + `MongoDB` 搭建后台服务
 2. `React` + `Redux` + `Bootstrap` 前端页面
 3. `Typescript` 提供良好的类型检查
 
