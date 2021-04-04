@@ -17,3 +17,15 @@
 1. Express + MongoDB 搭建后台服务
 2. React + Redux + Bootstrap 前端页面
 3. Typescript 提供良好的类型检查
+
+## 使用方法
+1. `git clone https://github.com/ronnycyy/mobile-shop.git`
+2. `cd mobile-shop/frontend`
+3. `yarn`
+5. `cd ..`
+3. `yarn`
+4. `yarn start`
+
+## 注意
+1. 项目中使用的`mongoDB`需要自行注册
+2. 有问题欢迎加我wx: 13823120793，一起交流
