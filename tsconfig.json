@@ -24,6 +24,7 @@
   "exclude": [
     "./node_modules",
     "./__mocks__",
-    "./frontend"
+    "./frontend",
+    "./backend/web"
   ]
 }

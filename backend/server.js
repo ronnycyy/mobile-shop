@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var colors_1 = __importDefault(require("colors"));
 var dotenv_1 = __importDefault(require("dotenv"));
+var path_1 = __importDefault(require("path"));
 var db_1 = __importDefault(require("./config/db"));
 var product_1 = __importDefault(require("./routes/product"));
 var user_1 = __importDefault(require("./routes/user"));
@@ -18,9 +19,10 @@ var PORT = process.env.PORT || 5000;
 var app = express_1.default();
 // 解析body的中间件
 app.use(express_1.default.json());
-app.get('/', function (req, res) {
-    res.send("welcome to server api");
-});
+app.use('/', express_1.default.static(path_1.default.join(__dirname, 'web')));
+// app.get('/', (req, res) => {
+//   res.send(`welcome to server api`);
+// });
 // 此处没有调用next，因此中间件不会往下走，除非抛出错误，那样就直接跳errorHandler
 app.use('/api/products', product_1.default);
 app.use('/api/user', user_1.default);

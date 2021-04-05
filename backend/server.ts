@@ -1,6 +1,7 @@
 import express from 'express';
 import colors from 'colors';
 import dotenv from 'dotenv';
+import path from 'path';
 import connectDB from './config/db';
 import productRoutes from './routes/product';
 import userRoutes from './routes/user';
@@ -18,9 +19,11 @@ const app = express();
 // 解析body的中间件
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send(`welcome to server api`);
-});
+app.use('/', express.static(path.join(__dirname, 'web')));
+
+// app.get('/', (req, res) => {
+//   res.send(`welcome to server api`);
+// });
 
 // 此处没有调用next，因此中间件不会往下走，除非抛出错误，那样就直接跳errorHandler
 app.use('/api/products', productRoutes);
