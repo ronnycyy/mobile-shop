@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var order_1 = require("./../controllers/order");
 var express_1 = __importDefault(require("express"));
-var auth_1 = __importDefault(require("../middlewares/auth"));
+var auth_1 = require("../middlewares/auth");
 var router = express_1.default.Router();
-router.route('/').post(auth_1.default, order_1.addOrderItems);
-router.route('/:id').get(auth_1.default, order_1.getOrderById);
+router.route('/').post(auth_1.protect, order_1.addOrderItems);
+router.route('/:id').get(auth_1.protect, order_1.getOrderById);
 exports.default = router;

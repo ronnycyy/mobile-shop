@@ -58,6 +58,24 @@ const Header = () => {
                   )
               }
 
+              {
+                user && user.isAdmin && (
+                  <NavDropdown title='管理员操作' id='adminMenu'>
+                    <LinkContainer to='/admin/userList'>
+                      <NavDropdown.Item>用户列表</NavDropdown.Item>
+                    </LinkContainer>
+
+                    <LinkContainer to='/admin/productList'>
+                      <NavDropdown.Item>产品列表</NavDropdown.Item>
+                    </LinkContainer>
+
+                    <LinkContainer to='/admin/orderList'>
+                      <NavDropdown.Item>订单列表</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                )
+              }
+
             </Nav>
           </Navbar.Collapse>
         </Container>

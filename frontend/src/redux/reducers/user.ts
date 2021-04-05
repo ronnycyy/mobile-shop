@@ -1,6 +1,6 @@
-import { USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_SUCCESS, USER_REGISTER_FAILED, USER_DETAILS, USER_DETAILS_SUCCESS, USER_DETAILS_FAILED, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED } from './../../constant/user';
+import { USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_SUCCESS, USER_REGISTER_FAILED, USER_DETAILS, USER_DETAILS_SUCCESS, USER_DETAILS_FAILED, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED, USER_LIST, USER_LIST_SUCCESS, USER_LIST_FAILED } from './../../constant/user';
 import myAction from "../../models/Action";
-import { UserDetails, UserLogin } from "../../models/State";
+import { UserDetails, UserList, UserLogin } from "../../models/State";
 
 
 const userLoginReducer = (state = new UserLogin(false, null, null), action: myAction) => {
@@ -51,5 +51,18 @@ const userDetailReducer = (state = new UserLogin(false, null, null), action: myA
   }
 }
 
+const userListReducer = (state = new UserList(false, [], null), action: myAction) => {
+  switch (action.type) {
+    case USER_LIST:
+      return new UserList(true, [], null)
+    case USER_LIST_SUCCESS:
+      return new UserList(false, action.payload, null)
+    case USER_LIST_FAILED:
+      return new UserList(false, [], action.payload)
+    default:
+      return state;
+  }
+}
 
-export { userLoginReducer, userRegisterReducer, userDetailReducer };
+
+export { userLoginReducer, userRegisterReducer, userDetailReducer, userListReducer };

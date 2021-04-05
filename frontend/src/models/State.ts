@@ -17,7 +17,8 @@ interface State {
   userRegister: UserRegister,
   userDetails: UserDetails,
   orderState: OrderState,
-  orderDetails: OrderState
+  orderDetails: OrderState,
+  userList: UserList
 }
 
 class OrderState extends BaseState {
@@ -65,6 +66,15 @@ class ProductDetails extends BaseState {
   }
 }
 
+class UserList extends BaseState {
+  public users: User[];
+
+  constructor(loading: boolean, users: User[], error: any) {
+    super(loading, error);
+    this.users = users;
+  }
+}
+
 class UserLogin extends BaseState {
   public user: User | null;
 
@@ -102,7 +112,8 @@ export {
   UserLogin,
   UserRegister,
   UserDetails,
-  OrderState
+  OrderState,
+  UserList
 };
 
 export type { State };

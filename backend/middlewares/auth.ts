@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import dotenv from 'dotenv';
 import User from '../models/user';
@@ -29,5 +29,14 @@ const protect = asyncHandler(async (req: any, res: Response, next: NextFunction)
 
 })
 
+const isAdmin = (req: any, res: Response, next: NextFunction) => {
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error(`you are not admin`);
+  }
+}
 
-export default protect;
+
+export { protect, isAdmin };

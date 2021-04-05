@@ -2,10 +2,10 @@ import { orderCreateReducer, orderDetailsReducer } from './reducers/order';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { Cart, OrderState, ProductDetails, ProductList, UserDetails, UserLogin, UserRegister } from '../models/State';
+import { Cart, OrderState, ProductDetails, ProductList, UserDetails, UserList, UserLogin, UserRegister } from '../models/State';
 import { cartReducer } from './reducers/cart';
 import { productDetailsReducer, productListReducer } from './reducers/product';
-import { userDetailReducer, userLoginReducer, userRegisterReducer } from './reducers/user';
+import { userDetailReducer, userListReducer, userLoginReducer, userRegisterReducer } from './reducers/user';
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -15,7 +15,8 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailReducer,
   orderState: orderCreateReducer,
-  orderDetails: orderDetailsReducer
+  orderDetails: orderDetailsReducer,
+  userList: userListReducer
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse('' + localStorage.getItem('cartItems')) : [];
@@ -32,6 +33,7 @@ const initialState = {
   userDetails: new UserDetails(false, null, null, false),
   orderState: new OrderState(false, null, null, false),
   orderDetails: new OrderState(false, null, null, false),
+  userList: new UserList(false, [], null)
 };
 
 const middlewares = [thunk];

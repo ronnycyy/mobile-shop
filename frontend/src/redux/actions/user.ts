@@ -1,4 +1,4 @@
-import { USER_DETAILS, USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_FAILED, USER_REGISTER_SUCCESS, USER_DETAILS_FAILED, USER_DETAILS_SUCCESS, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED } from './../../constant/user';
+import { USER_DETAILS, USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_FAILED, USER_REGISTER_SUCCESS, USER_DETAILS_FAILED, USER_DETAILS_SUCCESS, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED, USER_LIST, USER_LIST_FAILED, USER_LIST_SUCCESS } from './../../constant/user';
 import Action from '../../models/Action';
 import { Dispatch } from 'redux';
 import axios from 'axios';
@@ -74,9 +74,9 @@ export const getUserDetails = () => async (dispatch: Dispatch<Action>, getState:
 
     const { data } = await axios.get(`/api/user/profile`, config);
 
-    const newUser = new User(data._id, data.name, data.email, data.token,data.password);
+    const newUser = new User(data._id, data.name, data.email, data.token, data.password);
 
-    dispatch({ type: USER_DETAILS_SUCCESS, payload: newUser});
+    dispatch({ type: USER_DETAILS_SUCCESS, payload: newUser });
 
 
   } catch (error) {
@@ -113,6 +113,44 @@ export const updateUserDetails = (updatedUser: User | null) => async (dispatch: 
   } catch (error) {
     dispatch({
       type: USER_UPDATE_FAILED,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const listUser = () => async (dispatch: Dispatch<Action>, getState: any) => {
+  try {
+    dispatch({ type: USER_LIST });
+
+    const { userLogin: { user } } = getState();
+
+    const config = {
+      headers: {
+        // 'Content-Type': 'application/json',  不需要传递任何值给后台
+        Authorization: `Bearer ${user ? user.token : ''}`
+      }
+    }
+
+    const { data } = await axios.get(`/api/user`, config);
+
+    let users: User[] = [];
+
+    data.forEach((u: any) => {
+      u.id = u._id;
+
+      delete u._id;
+
+      users.push(u);
+    })
+
+    dispatch({ type: USER_LIST_SUCCESS, payload: users });
+
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAILED,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

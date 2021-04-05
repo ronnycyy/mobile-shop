@@ -4,6 +4,7 @@ class User {
   public email: string;
   public token: string;
   public password: string;
+  public isAdmin?: boolean;
 
   constructor(id: string, name: string, email: string, token: string, password: string) {
     this.id = id;

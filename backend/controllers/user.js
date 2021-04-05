@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserProfile = exports.getUserProfile = exports.authUser = exports.registerUser = void 0;
+exports.getUsers = exports.updateUserProfile = exports.getUserProfile = exports.authUser = exports.registerUser = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var user_1 = __importDefault(require("../models/user"));
 var generateToken_1 = __importDefault(require("../utils/generateToken"));
@@ -179,3 +179,25 @@ var updateUserProfile = function (req, res) { return __awaiter(void 0, void 0, v
     });
 }); };
 exports.updateUserProfile = updateUserProfile;
+// @desc    get all users
+// @route   GET /api/user
+// @access  private (only admin)
+var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var users;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, user_1.default.find({})];
+            case 1:
+                users = _a.sent();
+                if (users) {
+                    res.json(users);
+                }
+                else {
+                    res.status(404);
+                    throw new Error("user not found.");
+                }
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.getUsers = getUsers;
