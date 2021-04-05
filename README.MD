@@ -5,6 +5,9 @@
 1. 本人是一名前端工程师，对`react`很感兴趣，但缺乏`react`项目的实战练习。
 2. `ms-react-mobile-shop`使用`javascript`+`jsx`编写，项目中各种变量没有类型声明，难以维护，因此用`typescript`以及`tsx`重写该项目。
 
+## 在线效果
+访问： [RONNY的商城](http://www.chenyunyi.cn)
+
 ## 功能概览
 1. 首页
 2. 手机详情
