@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsers = exports.updateUserProfile = exports.getUserProfile = exports.authUser = exports.registerUser = void 0;
+exports.updateUser = exports.getUserById = exports.deleteUser = exports.getUsers = exports.updateUserProfile = exports.getUserProfile = exports.authUser = exports.registerUser = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var user_1 = __importDefault(require("../models/user"));
 var generateToken_1 = __importDefault(require("../utils/generateToken"));
@@ -120,7 +120,7 @@ exports.authUser = authUser;
 // @desc    get user details after login
 // @route   GET /api/user/profile
 // @access  private
-var getUserProfile = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var getUserProfile = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -142,13 +142,13 @@ var getUserProfile = function (req, res) { return __awaiter(void 0, void 0, void
                 return [2 /*return*/];
         }
     });
-}); };
+}); });
 exports.getUserProfile = getUserProfile;
 // @desc    update user details
 // @route   PUT /api/user/profile
 // @access  private
-var updateUserProfile = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, updateUser;
+var updateUserProfile = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, updateUser_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, user_1.default.findById(req.user._id)];
@@ -162,13 +162,13 @@ var updateUserProfile = function (req, res) { return __awaiter(void 0, void 0, v
                 }
                 return [4 /*yield*/, user.save()];
             case 2:
-                updateUser = _a.sent();
+                updateUser_1 = _a.sent();
                 res.json({
-                    _id: updateUser._id,
-                    name: updateUser.name,
-                    email: updateUser.email,
-                    isAdmin: updateUser.isAdmin,
-                    token: generateToken_1.default(updateUser._id)
+                    _id: updateUser_1._id,
+                    name: updateUser_1.name,
+                    email: updateUser_1.email,
+                    isAdmin: updateUser_1.isAdmin,
+                    token: generateToken_1.default(updateUser_1._id)
                 });
                 return [3 /*break*/, 4];
             case 3:
@@ -177,12 +177,12 @@ var updateUserProfile = function (req, res) { return __awaiter(void 0, void 0, v
             case 4: return [2 /*return*/];
         }
     });
-}); };
+}); });
 exports.updateUserProfile = updateUserProfile;
 // @desc    get all users
 // @route   GET /api/user
 // @access  private (only admin)
-var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var getUsers = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -199,5 +199,83 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                 return [2 /*return*/];
         }
     });
-}); };
+}); });
 exports.getUsers = getUsers;
+// @desc    delete user
+// @route   DELETE /api/user/:id
+// @access  private (only admin)
+var deleteUser = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, user_1.default.findById(req.params.id)];
+            case 1:
+                user = _a.sent();
+                if (!user) return [3 /*break*/, 3];
+                return [4 /*yield*/, user.remove()];
+            case 2:
+                _a.sent();
+                res.json({ message: 'user deleted.' });
+                return [3 /*break*/, 4];
+            case 3:
+                res.status(404);
+                throw new Error("user not found.");
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.deleteUser = deleteUser;
+// @desc    get user info
+// @route   GET /api/user/:id 
+// @access  private (only admin)
+var getUserById = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, user_1.default.findById(req.params.id).select('-password')];
+            case 1:
+                user = _a.sent();
+                if (user) {
+                    res.json(user);
+                }
+                else {
+                    res.status(404);
+                    throw new Error("user not found.");
+                }
+                return [2 /*return*/];
+        }
+    });
+}); });
+exports.getUserById = getUserById;
+// @desc    update user info
+// @route   PUT /api/user/:id 
+// @access  private (only admin)
+var updateUser = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, updateUser_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, user_1.default.findById(req.params.id)];
+            case 1:
+                user = _a.sent();
+                if (!user) return [3 /*break*/, 3];
+                user.name = req.body.name || user.name;
+                user.email = req.body.email || user.email;
+                user.isAdmin = req.body.isAdmin || user.isAdmin;
+                return [4 /*yield*/, user.save()];
+            case 2:
+                updateUser_2 = _a.sent();
+                res.json({
+                    _id: updateUser_2._id,
+                    name: updateUser_2.name,
+                    email: updateUser_2.email,
+                    isAdmin: updateUser_2.isAdmin
+                });
+                return [3 /*break*/, 4];
+            case 3:
+                res.status(404);
+                throw new Error("user not found.");
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.updateUser = updateUser;

@@ -1,4 +1,4 @@
-import { USER_DETAILS, USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_FAILED, USER_REGISTER_SUCCESS, USER_DETAILS_FAILED, USER_DETAILS_SUCCESS, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED, USER_LIST, USER_LIST_FAILED, USER_LIST_SUCCESS, USER_LIST_RESET } from './../../constant/user';
+import { USER_DETAILS, USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_FAILED, USER_REGISTER_SUCCESS, USER_DETAILS_FAILED, USER_DETAILS_SUCCESS, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED, USER_LIST, USER_LIST_FAILED, USER_LIST_SUCCESS, USER_LIST_RESET, USER_DELETE, USER_DELETE_SUCCESS, USER_DELETE_FAILED } from './../../constant/user';
 import Action from '../../models/Action';
 import { Dispatch } from 'redux';
 import axios from 'axios';
@@ -143,9 +143,7 @@ export const listUser = () => async (dispatch: Dispatch<Action>, getState: any) 
 
     data.forEach((u: any) => {
       u.id = u._id;
-
       delete u._id;
-
       users.push(u);
     })
 
@@ -154,6 +152,34 @@ export const listUser = () => async (dispatch: Dispatch<Action>, getState: any) 
   } catch (error) {
     dispatch({
       type: USER_LIST_FAILED,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const deleteUser = (id: string) => async (dispatch: Dispatch<Action>, getState: any) => {
+  try {
+    dispatch({ type: USER_DELETE });
+
+    const { userLogin: { user } } = getState();
+
+    const config = {
+      headers: {
+        // 'Content-Type': 'application/json',  不需要传递任何值给后台
+        Authorization: `Bearer ${user ? user.token : ''}`
+      }
+    }
+
+    await axios.delete(`/api/user/${id}`, config);
+
+    dispatch({ type: USER_DELETE_SUCCESS });
+
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_FAILED,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
