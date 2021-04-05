@@ -15,7 +15,7 @@ var errorHandler_1 = require("./middlewares/errorHandler");
 colors_1.default.enable();
 dotenv_1.default.config();
 db_1.default();
-var PORT = process.env.PORT || 5000;
+var PORT = process.env.PORT || 80;
 var app = express_1.default();
 // 解析body的中间件
 app.use(express_1.default.json());

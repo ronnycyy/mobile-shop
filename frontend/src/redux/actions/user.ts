@@ -1,4 +1,4 @@
-import { USER_DETAILS, USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_FAILED, USER_REGISTER_SUCCESS, USER_DETAILS_FAILED, USER_DETAILS_SUCCESS, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED, USER_LIST, USER_LIST_FAILED, USER_LIST_SUCCESS } from './../../constant/user';
+import { USER_DETAILS, USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_FAILED, USER_REGISTER_SUCCESS, USER_DETAILS_FAILED, USER_DETAILS_SUCCESS, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED, USER_LIST, USER_LIST_FAILED, USER_LIST_SUCCESS, USER_LIST_RESET } from './../../constant/user';
 import Action from '../../models/Action';
 import { Dispatch } from 'redux';
 import axios from 'axios';
@@ -17,7 +17,10 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
 
     const { data } = await axios.post('/api/user/login', { email, password }, config);
 
-    dispatch({ type: USER_LOGIN_SUCCESS, payload: new User(data._id, data.name, data.email, data.token, data.password) });
+    let loginUser = new User(data._id, data.name, data.email, data.token, data.password);
+    loginUser.isAdmin = data.isAdmin;
+
+    dispatch({ type: USER_LOGIN_SUCCESS, payload: loginUser });
 
     localStorage.setItem('user', JSON.stringify({ ...data, id: data }));
 
@@ -161,5 +164,6 @@ export const listUser = () => async (dispatch: Dispatch<Action>, getState: any) 
 
 export const logout = () => (dispatch: Dispatch<Action>) => {
   localStorage.removeItem('user');
-  dispatch({ type: USER_LOGOUT })
+  dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_LIST_RESET })
 }

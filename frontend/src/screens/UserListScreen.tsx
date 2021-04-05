@@ -2,20 +2,27 @@ import React, { useEffect } from 'react'
 import { Button, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap';
+import { RouteComponentProps } from 'react-router-dom';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
 import { State } from '../models/State';
 import { listUser } from '../redux/actions/user';
 
-const UserListScreen = () => {
+const UserListScreen: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
 
   const dispatch = useDispatch();
   const userList = useSelector((state: State) => state.userList);
   const { loading, users, error } = userList;
+  const userLogin = useSelector((state: State) => state.userLogin);
+  const { user } = userLogin;
 
   useEffect(() => {
-    dispatch(listUser())
-  }, [dispatch])
+    if (user && user.isAdmin) {
+      dispatch(listUser())
+    } else {
+      history.push('/login')
+    }
+  }, [dispatch, history, user])
 
   const deleteHandler = () => { }
 
