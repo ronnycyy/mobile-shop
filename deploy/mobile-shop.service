@@ -1,0 +1,18 @@
+
+[Unit]
+Description=mobile-shop.service
+After=network.target remote-fs.target nss-lookup.target
+ 
+[Service]
+Type=forking
+PIDFile=/run/mobile-shop.pid
+ExecStart=/bin/setsid /usr/bin/node /opt/projects/mobile-shop/server.js
+Restart=/bin/pkill node && /bin/setsid /usr/bin/node /opt/projects/mobile-shop/server.js
+ExecStop=/bin/pkill node
+ExecReload=
+PrivateTmp=true
+RemainAfterExit=yes
+ExecStartPre=
+ 
+[Install]
+WantedBy=multi-user.target
