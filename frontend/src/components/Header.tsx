@@ -15,7 +15,9 @@ const Header = () => {
   }
 
   const getUserDetailsHandler = () => {
-    dispatch(getUserDetails())
+    if (user) {
+      dispatch(getUserDetails(user.id))
+    }
   }
 
   return (

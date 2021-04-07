@@ -26,7 +26,7 @@ const ProfileScreen = ({ history }: any) => {
       history.push('/login')
     } else {
       if (!user || (user && !user.name)) {
-        if (!updated) dispatch(getUserDetails())
+        if (!updated && user) dispatch(getUserDetails(user.id))
       } else {
         setName(user.name);
         setEmail(user.email);

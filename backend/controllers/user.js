@@ -120,7 +120,7 @@ exports.authUser = authUser;
 // @desc    get user details after login
 // @route   GET /api/user/profile
 // @access  private
-var getUserProfile = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var getUserProfile = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -142,7 +142,7 @@ var getUserProfile = express_async_handler_1.default(function (req, res) { retur
                 return [2 /*return*/];
         }
     });
-}); });
+}); };
 exports.getUserProfile = getUserProfile;
 // @desc    update user details
 // @route   PUT /api/user/profile

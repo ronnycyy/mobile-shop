@@ -61,7 +61,7 @@ const authUser = asyncHandler(
 // @desc    get user details after login
 // @route   GET /api/user/profile
 // @access  private
-const getUserProfile = asyncHandler(async (req: any, res: Response) => {
+const getUserProfile = async (req: any, res: Response) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
@@ -75,7 +75,7 @@ const getUserProfile = asyncHandler(async (req: any, res: Response) => {
     res.status(404);
     throw new Error(`user not found.`);
   }
-})
+}
 
 
 // @desc    update user details
