@@ -31,6 +31,7 @@ function App() {
           <Route path='/register' component={RegisterScreen} />
           <Route path='/login' component={UserLoginScreen} />
           <Route path='/admin/userList' component={UserListScreen} />
+          {/* /admin/user/${user.id}/edit */}
           <Route path='/admin/user/:id/edit' component={UserEditScreen} />
           <Route path='/products/:id' component={ProductScreen} />
           <Route path='/cart/:id?' component={CartScreen} />

@@ -1,6 +1,6 @@
-import { USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_SUCCESS, USER_REGISTER_FAILED, USER_DETAILS, USER_DETAILS_SUCCESS, USER_DETAILS_FAILED, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED, USER_LIST, USER_LIST_SUCCESS, USER_LIST_FAILED, USER_LIST_RESET, USER_DELETE, USER_DELETE_SUCCESS, USER_DELETE_FAILED } from './../../constant/user';
+import { USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_SUCCESS, USER_REGISTER_FAILED, USER_DETAILS, USER_DETAILS_SUCCESS, USER_DETAILS_FAILED, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED, USER_LIST, USER_LIST_SUCCESS, USER_LIST_FAILED, USER_LIST_RESET, USER_DELETE, USER_DELETE_SUCCESS, USER_DELETE_FAILED, ADMIN_EDIT_USER, ADMIN_EDIT_USER_SUCCESS, ADMIN_EDIT_USER_FAILED, ADMIN_EDIT_USER_RESET } from './../../constant/user';
 import myAction from "../../models/Action";
-import { UserDelete, UserDetails, UserList, UserLogin } from "../../models/State";
+import { AdminUserEdit, UserDelete, UserDetails, UserList, UserLogin } from "../../models/State";
 
 
 const userLoginReducer = (state = new UserLogin(false, null, null), action: myAction) => {
@@ -79,5 +79,20 @@ const userDeleteReducer = (state = new UserDelete(false, false, null), action: m
   }
 }
 
+const adminUserEditReducer = (state = new AdminUserEdit(false, false, null, null), action: myAction) => {
+  switch (action.type) {
+    case ADMIN_EDIT_USER:
+      return new AdminUserEdit(true, false, null, null)
+    case ADMIN_EDIT_USER_SUCCESS:
+      return new AdminUserEdit(false, true, null, action.payload)
+    case ADMIN_EDIT_USER_FAILED:
+      return new AdminUserEdit(false, false, action.payload, null)
+    case ADMIN_EDIT_USER_RESET:
+      return new AdminUserEdit(false, false, null, null)
+    default:
+      return state;
+  }
+}
 
-export { userLoginReducer, userRegisterReducer, userDetailReducer, userListReducer, userDeleteReducer };
+
+export { userLoginReducer, userRegisterReducer, userDetailReducer, userListReducer, userDeleteReducer, adminUserEditReducer };

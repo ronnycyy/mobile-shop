@@ -19,7 +19,8 @@ interface State {
   orderState: OrderState,
   orderDetails: OrderState,
   userList: UserList,
-  userDelete: UserDelete
+  userDelete: UserDelete,
+  adminUserEdit: AdminUserEdit
 }
 
 class OrderState extends BaseState {
@@ -76,6 +77,17 @@ class UserList extends BaseState {
   }
 }
 
+class AdminUserEdit extends BaseState {
+  public success: boolean;
+  public user: User | null;
+
+  constructor(loading: boolean, success: boolean, error: any, user: User | null) {
+    super(loading, error);
+    this.success = success;
+    this.user = user;
+  }
+}
+
 class UserDelete extends BaseState {
   public success: boolean;
 
@@ -124,7 +136,8 @@ export {
   UserDetails,
   OrderState,
   UserList,
-  UserDelete
+  UserDelete,
+  AdminUserEdit
 };
 
 export type { State };

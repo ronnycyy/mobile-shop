@@ -4,8 +4,9 @@
   "description": "MERN mobile-shop",
   "main": "server.js",
   "scripts": {
-    "start": "npm-run-all --parallel server:dev client:dev",
+    "start": "npm-run-all client:prod server:dev ",
     "server:dev": "tsc && nodemon ./backend/server.js",
+    "client:prod": "npm run build --prefix frontend",
     "client:dev": "npm start --prefix frontend",
     "db:init": "tsc && node ./backend/seeder.js",
     "db:clear": "tsc && node ./backend/seeder.js --clear"

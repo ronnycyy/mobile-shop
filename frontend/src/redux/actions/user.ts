@@ -1,4 +1,4 @@
-import { USER_DETAILS, USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_FAILED, USER_REGISTER_SUCCESS, USER_DETAILS_FAILED, USER_DETAILS_SUCCESS, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED, USER_LIST, USER_LIST_FAILED, USER_LIST_SUCCESS, USER_LIST_RESET, USER_DELETE, USER_DELETE_SUCCESS, USER_DELETE_FAILED } from './../../constant/user';
+import { USER_DETAILS, USER_LOGIN, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER, USER_REGISTER_FAILED, USER_REGISTER_SUCCESS, USER_DETAILS_FAILED, USER_DETAILS_SUCCESS, USER_UPDATE, USER_UPDATE_SUCCESS, USER_UPDATE_FAILED, USER_LIST, USER_LIST_FAILED, USER_LIST_SUCCESS, USER_LIST_RESET, USER_DELETE, USER_DELETE_SUCCESS, USER_DELETE_FAILED, ADMIN_EDIT_USER, ADMIN_EDIT_USER_FAILED, ADMIN_EDIT_USER_SUCCESS } from './../../constant/user';
 import Action from '../../models/Action';
 import { Dispatch } from 'redux';
 import axios from 'axios';
@@ -6,6 +6,8 @@ import User from '../../models/User';
 
 export const login = (email: string, password: string) => async (dispatch: Dispatch<Action>) => {
   try {
+    console.log(111);
+
     dispatch({ type: USER_LOGIN });
 
     // 将email和password作为一个json传递给后台
@@ -16,6 +18,9 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
     }
 
     const { data } = await axios.post('/api/user/login', { email, password }, config);
+
+    console.log(data);
+
 
     let loginUser = new User(data._id, data.name, data.email, data.token, data.password);
     loginUser.isAdmin = data.isAdmin;
@@ -181,6 +186,36 @@ export const deleteUser = (id: string) => async (dispatch: Dispatch<Action>, get
   } catch (error) {
     dispatch({
       type: USER_DELETE_FAILED,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const adminUserEdit = (user: User) => async (dispatch: Dispatch<Action>, getState: any) => {
+  try {
+    dispatch({ type: ADMIN_EDIT_USER });
+
+    const { userLogin: { user:loginUser } } = getState();
+
+    const config = {
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${loginUser.token}` }
+    }
+
+    const { data } = await axios.put(`/api/user/${user.id}`, user, config);
+
+    let adminEditUser = new User(data._id, data.name, data.email, data.token, data.password);
+    adminEditUser.isAdmin = data.isAdmin;
+
+    dispatch({ type: ADMIN_EDIT_USER_SUCCESS, payload: adminEditUser })
+    dispatch({ type: USER_DETAILS_SUCCESS, payload: adminEditUser })
+
+
+  } catch (error) {
+    dispatch({
+      type: ADMIN_EDIT_USER_FAILED,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

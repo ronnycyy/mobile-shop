@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
+import { ADMIN_EDIT_USER_RESET } from '../constant/user';
 import { State } from '../models/State';
-import { getUserDetails } from '../redux/actions/user';
+import User from '../models/User';
+import { adminUserEdit, getUserDetails } from '../redux/actions/user';
 
 const UserEditScreen = ({ match, history }: any) => {
   const userId = match.params.id;
@@ -18,25 +20,40 @@ const UserEditScreen = ({ match, history }: any) => {
   const dispatch = useDispatch();
   const userDetails = useSelector((state: State) => state.userDetails);
   const { loading, error, user } = userDetails;
+  const adminUserEditState = useSelector((state: State) => state.adminUserEdit);
+  const { loading: adLoading, error: adError, success: adSuccess } = adminUserEditState;  // rename vars
 
   useEffect(() => {
-    if (!user?.name || user?.id !== userId) {
-      dispatch(getUserDetails(userId))
+    if (adSuccess) {
+      dispatch({ type: ADMIN_EDIT_USER_RESET });
+      history.push('/admin/userlist');
     } else {
-      setName(user.name);
-      setEmail(user.email);
-      setIsAdmin(user.isAdmin || false);
+      if (!user?.name || user?.id !== userId) {
+        dispatch(getUserDetails(userId))
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+        setIsAdmin(user.isAdmin || false);
+      }
     }
-   }, [userId, user, dispatch])
+   }, [userId, user, dispatch, history, adSuccess])
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
+    let subUser = new User(userId, name, email, '', '');
+    subUser.isAdmin = isAdmin;
+    dispatch(adminUserEdit(subUser));
   }
 
   return (
     <FormContainer>
       <Link to='/admin/userList' className='btn btn-dark my-3'>返回上一页</Link>
       <h1>编辑用户界面</h1>
+
+      {/* admin edit user */}
+      {adLoading && <Loading />}
+      {adError && <Message variant='danger'>{adError}</Message>}
+
       {
         loading ?
           <Loading />

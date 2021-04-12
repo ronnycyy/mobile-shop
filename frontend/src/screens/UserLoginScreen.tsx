@@ -16,10 +16,12 @@ const UserLoginScreen = ({ location, history }: any) => {
   const { loading, user, error } = userLogin;
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
-  
+
   const dispatch = useDispatch();
 
   const submitHandler = (e: FormEvent) => {
+    console.log('hello');
+
     e.preventDefault();
     dispatch(login(email, password));
   }
@@ -28,13 +30,13 @@ const UserLoginScreen = ({ location, history }: any) => {
     if (user) {
       history.push(redirect)
     }
-  }, [ history, user, redirect ])
+  }, [history, user, redirect])
 
   return (
     <FormContainer>
       <h1>登录</h1>
-      { error && <Message variant='danger'>{ error }</Message> }
-      { loading && <Loading /> }
+      { error && <Message variant='danger'>{error}</Message>}
+      { loading && <Loading />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId='email'>
           <Form.Label>邮箱地址:</Form.Label>
