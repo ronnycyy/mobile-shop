@@ -8,6 +8,7 @@ import HomeScreen from './screens/HomeScreen';
 import OrderScreen from './screens/OrderScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import ProductListScreen from './screens/ProductListScreen';
 import ProductScreen from './screens/ProductScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
@@ -30,11 +31,12 @@ function App() {
           <Route path='/profile' component={ProfileScreen} />
           <Route path='/register' component={RegisterScreen} />
           <Route path='/login' component={UserLoginScreen} />
-          <Route path='/admin/userList' component={UserListScreen} />
-          {/* /admin/user/${user.id}/edit */}
-          <Route path='/admin/user/:id/edit' component={UserEditScreen} />
           <Route path='/products/:id' component={ProductScreen} />
           <Route path='/cart/:id?' component={CartScreen} />
+          <Route path='/admin/userList' component={UserListScreen} />
+          <Route path='/admin/user/:id/edit' component={UserEditScreen} />
+          <Route path='/admin/productList' component={ProductListScreen} />
+
         </Container>
       </main>
       <Footer />
