@@ -1,6 +1,6 @@
 import myAction from '../../models/Action';
-import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILED, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAILED } from '../../constant/product';
-import { ProductList, ProductDetails } from '../../models/State';
+import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILED, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAILED, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAILED } from '../../constant/product';
+import { ProductList, ProductDetails, ProductDelete } from '../../models/State';
 
 const productListReducer = (state = new ProductList(false, [], null), action: myAction) => {
   switch (action.type) {
@@ -28,7 +28,21 @@ const productDetailsReducer = (state = new ProductDetails(false, null, null), ac
   }
 }
 
+const productDeleteReducer = (state = new ProductDelete(false, null, false), action: myAction) => {
+  switch (action.type) {
+    case PRODUCT_DELETE_REQUEST:
+      return new ProductDelete(true, null, false);
+    case PRODUCT_DELETE_SUCCESS:
+      return new ProductDelete(false, null, true);
+    case PRODUCT_DELETE_FAILED:
+      return new ProductDelete(false, action.payload, false);
+    default:
+      return state;
+  }
+}
+
 export {
   productListReducer,
-  productDetailsReducer
+  productDetailsReducer,
+  productDeleteReducer
 };

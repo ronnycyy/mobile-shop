@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProductById = exports.getProducts = void 0;
+exports.deleteProductById = exports.getProductById = exports.getProducts = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var product_1 = __importDefault(require("../models/product"));
 // @desc    fetch all products
@@ -80,3 +80,28 @@ var getProductById = express_async_handler_1.default(function (req, res, next) {
     });
 }); });
 exports.getProductById = getProductById;
+// @desc    delete single product
+// @route   DELETE /api/products/:id
+// @access  private (only admin)
+var deleteProductById = express_async_handler_1.default(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var product;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, product_1.default.findById(req.params.id)];
+            case 1:
+                product = _a.sent();
+                if (!product) return [3 /*break*/, 3];
+                return [4 /*yield*/, product.remove()];
+            case 2:
+                _a.sent();
+                res.json({ message: '产品删除成功' });
+                return [3 /*break*/, 4];
+            case 3:
+                res.status(404);
+                next(new Error("Product Not Found."));
+                _a.label = 4;
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.deleteProductById = deleteProductById;

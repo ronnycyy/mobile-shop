@@ -12,6 +12,7 @@ import Order from './Order';
 interface State {
   productList: ProductList,
   productDetails: ProductDetails,
+  productDelete: ProductDelete,
   cart: Cart,
   userLogin: UserLogin,
   userRegister: UserRegister,
@@ -65,6 +66,15 @@ class ProductDetails extends BaseState {
   constructor(loading: boolean, product: Product | null, error: any) {
     super(loading, error);
     this.product = product;
+  }
+}
+
+class ProductDelete extends BaseState {
+  public success: boolean;
+
+  constructor(loading: boolean, error: any, success: boolean) {
+    super(loading, error);
+    this.success = success;
   }
 }
 
@@ -137,7 +147,8 @@ export {
   OrderState,
   UserList,
   UserDelete,
-  AdminUserEdit
+  AdminUserEdit,
+  ProductDelete
 };
 
 export type { State };

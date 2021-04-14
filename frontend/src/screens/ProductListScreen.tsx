@@ -7,14 +7,16 @@ import Loading from '../components/Loading';
 import Message from '../components/Message';
 import Product from '../models/Product';
 import { State } from '../models/State';
-import { listProducts } from '../redux/actions/product';
+import { deleteProduct, listProducts } from '../redux/actions/product';
 
 const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
-  console.log(111);
-  
   const dispatch = useDispatch();
   const productList = useSelector((state: State) => state.productList);
   const { loading, error, products } = productList;
+
+  const productDelete = useSelector((state: State) => state.productDelete);
+  const { loading: deleteLoading, error: deleteError, success: deleteSuccess } = productDelete;
+
   const userLogin = useSelector((state: State) => state.userLogin);
   const { user } = userLogin;
 
@@ -24,10 +26,12 @@ const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ histo
     } else {
       history.push('/login');
     }
-  }, [user, history, dispatch]);
+  }, [user, history, dispatch, deleteSuccess]);
 
   const deleteHandler = (id: string) => {
-    if (window.confirm('Are you sure?')) { }
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteProduct(id));
+    }
   }
 
   const createHandler = () => { }
@@ -40,6 +44,9 @@ const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ histo
           <Button className='my-3' onClick={createHandler}>创建产品</Button>
         </Col>
       </Row>
+
+      { deleteLoading && <Loading />}
+      { deleteError && <Message variant='danger'>{deleteError}</Message>}
 
       {
         loading ?
