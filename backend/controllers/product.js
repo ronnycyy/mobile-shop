@@ -39,9 +39,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProductById = exports.getProductById = exports.getProducts = void 0;
+exports.updateProduct = exports.createProduct = exports.deleteProductById = exports.getProductById = exports.getProducts = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var product_1 = __importDefault(require("../models/product"));
+var product_2 = __importDefault(require("../models/product"));
 // @desc    fetch all products
 // @route   GET /api/products
 // @access  public
@@ -49,7 +50,7 @@ var getProducts = express_async_handler_1.default(function (req, res) { return _
     var products;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, product_1.default.find({})];
+            case 0: return [4 /*yield*/, product_2.default.find({})];
             case 1:
                 products = _a.sent();
                 res.json(products);
@@ -65,7 +66,7 @@ var getProductById = express_async_handler_1.default(function (req, res, next) {
     var product;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, product_1.default.findById(req.params.id)];
+            case 0: return [4 /*yield*/, product_2.default.findById(req.params.id)];
             case 1:
                 product = _a.sent();
                 if (product) {
@@ -87,7 +88,7 @@ var deleteProductById = express_async_handler_1.default(function (req, res, next
     var product;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, product_1.default.findById(req.params.id)];
+            case 0: return [4 /*yield*/, product_2.default.findById(req.params.id)];
             case 1:
                 product = _a.sent();
                 if (!product) return [3 /*break*/, 3];
@@ -105,3 +106,65 @@ var deleteProductById = express_async_handler_1.default(function (req, res, next
     });
 }); });
 exports.deleteProductById = deleteProductById;
+// @desc    create single product
+// @route   POST /api/products/:id
+// @access  private (only admin)
+var createProduct = express_async_handler_1.default(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var product, createdProduct;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                product = new product_1.default({
+                    name: '样本名称',
+                    price: 0,
+                    user: req.user._id,
+                    image: '/images/sample.jpg',
+                    brand: '样品品牌',
+                    category: '样品分类',
+                    countInStock: 0,
+                    numReviews: 0,
+                    description: '样品描述',
+                    rating: 0
+                });
+                return [4 /*yield*/, product.save()];
+            case 1:
+                createdProduct = _a.sent();
+                res.status(201).json(createdProduct);
+                return [2 /*return*/];
+        }
+    });
+}); });
+exports.createProduct = createProduct;
+// @desc    update single product
+// @route   PUT /api/products/:id
+// @access  private (only admin)
+var updateProduct = express_async_handler_1.default(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, name, price, description, image, brand, category, countInStock, product, createdProduct;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, name = _a.name, price = _a.price, description = _a.description, image = _a.image, brand = _a.brand, category = _a.category, countInStock = _a.countInStock;
+                return [4 /*yield*/, product_1.default.findById(req.params.id)];
+            case 1:
+                product = _b.sent();
+                if (!product) return [3 /*break*/, 3];
+                product.name = name;
+                product.price = price;
+                product.description = description;
+                product.image = image;
+                product.brand = brand;
+                product.category = category;
+                product.countInStock = countInStock;
+                return [4 /*yield*/, product.save()];
+            case 2:
+                createdProduct = _b.sent();
+                res.status(201).json(createdProduct);
+                return [3 /*break*/, 4];
+            case 3:
+                res.status(404);
+                throw new Error("Product Not Found.");
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.updateProduct = updateProduct;
