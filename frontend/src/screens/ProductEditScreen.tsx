@@ -6,7 +6,6 @@ import FormContainer from '../components/FormContainer';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
 import { PRODUCT_UPDATE_RESET } from '../constant/product';
-import Product from '../models/Product';
 import { State } from '../models/State';
 import { listProductDetails, updateProduct } from '../redux/actions/product';
 
@@ -27,7 +26,7 @@ const ProductEditScreen = ({ match, history }: any) => {
   const { loading, error, product } = productDetails;
 
   const productUpdate = useSelector((state: State) => state.productUpdate);
-  const { loading: updateLoading, error: updateError, product: updatedProduct, success: updateSuccess } = productUpdate;
+  const { loading: updateLoading, error: updateError, success: updateSuccess } = productUpdate;
 
   useEffect(() => {
 

@@ -3,7 +3,6 @@ import Action from '../../models/Action';
 import { Dispatch } from 'redux';
 import { PRODUCT_LIST_REQUEST } from "../../constant/product"
 import axios from 'axios';
-import Product from '../../models/Product';
 
 const listProducts = () => async (dispatch: Dispatch<Action>) => {
   try {
