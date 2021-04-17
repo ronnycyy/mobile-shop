@@ -1,6 +1,6 @@
 import myAction from '../../models/Action';
-import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILED, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAILED, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAILED } from '../../constant/product';
-import { ProductList, ProductDetails, ProductDelete } from '../../models/State';
+import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILED, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAILED, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAILED, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_CREATE_FAILED, PRODUCT_CREATE_RESET, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAILED, PRODUCT_UPDATE_RESET } from '../../constant/product';
+import { ProductList, ProductDetails, ProductDelete, ProductCreate, ProductUpdate } from '../../models/State';
 
 const productListReducer = (state = new ProductList(false, [], null), action: myAction) => {
   switch (action.type) {
@@ -41,8 +41,40 @@ const productDeleteReducer = (state = new ProductDelete(false, null, false), act
   }
 }
 
+const productCreateReducer = (state = new ProductCreate(false, null, false, null), action: myAction) => {
+  switch (action.type) {
+    case PRODUCT_CREATE_REQUEST:
+      return new ProductCreate(true, null, false, null);
+    case PRODUCT_CREATE_SUCCESS:
+      return new ProductCreate(false, null, true, action.payload);
+    case PRODUCT_CREATE_FAILED:
+      return new ProductCreate(false, action.payload, false, null);
+    case PRODUCT_CREATE_RESET:
+      return new ProductCreate(false, null, false, null);
+    default:
+      return state;
+  }
+}
+
+const productUpdateReducer = (state = new ProductUpdate(false, null, false, null), action: myAction) => {
+  switch (action.type) {
+    case PRODUCT_UPDATE_REQUEST:
+      return new ProductUpdate(true, null, false, null);
+    case PRODUCT_UPDATE_SUCCESS:
+      return new ProductUpdate(false, null, true, action.payload);
+    case PRODUCT_UPDATE_FAILED:
+      return new ProductUpdate(false, action.payload, false, null);
+    case PRODUCT_UPDATE_RESET:
+      return new ProductUpdate(false, null, false, null);
+    default:
+      return state;
+  }
+}
+
 export {
   productListReducer,
   productDetailsReducer,
-  productDeleteReducer
+  productDeleteReducer,
+  productCreateReducer,
+  productUpdateReducer
 };

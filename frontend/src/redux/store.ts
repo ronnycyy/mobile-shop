@@ -2,15 +2,17 @@ import { orderCreateReducer, orderDetailsReducer } from './reducers/order';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { AdminUserEdit, Cart, OrderState, ProductDelete, ProductDetails, ProductList, UserDelete, UserDetails, UserList, UserLogin, UserRegister } from '../models/State';
+import { AdminUserEdit, Cart, OrderState, ProductCreate, ProductDelete, ProductDetails, ProductList, ProductUpdate, UserDelete, UserDetails, UserList, UserLogin, UserRegister } from '../models/State';
 import { cartReducer } from './reducers/cart';
-import { productDeleteReducer, productDetailsReducer, productListReducer } from './reducers/product';
+import { productCreateReducer, productDeleteReducer, productDetailsReducer, productListReducer, productUpdateReducer } from './reducers/product';
 import { adminUserEditReducer, userDeleteReducer, userDetailReducer, userListReducer, userLoginReducer, userRegisterReducer } from './reducers/user';
 
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
   productDelete: productDeleteReducer,
+  productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
@@ -31,6 +33,8 @@ const initialState = {
   productList: new ProductList(false, [], null),
   productDetails: new ProductDetails(false, null, null),
   productDelete: new ProductDelete(false, null, false),
+  productCreate: new ProductCreate(false, null, false, null),
+  productUpdate: new ProductUpdate(false, null, false, null),
   cart: new Cart(false, cartItemsFromStorage, null, shippingAddress, paymentMethod),
   userLogin: new UserLogin(false, userFromStorage, null),
   userRegister: new UserRegister(false, null, null),

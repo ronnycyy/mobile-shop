@@ -5,9 +5,10 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { RouteComponentProps } from 'react-router-dom'
 import Loading from '../components/Loading';
 import Message from '../components/Message';
+import { PRODUCT_CREATE_RESET } from '../constant/product';
 import Product from '../models/Product';
 import { State } from '../models/State';
-import { deleteProduct, listProducts } from '../redux/actions/product';
+import { createProduct, deleteProduct, listProducts } from '../redux/actions/product';
 
 const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();
@@ -17,16 +18,24 @@ const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ histo
   const productDelete = useSelector((state: State) => state.productDelete);
   const { loading: deleteLoading, error: deleteError, success: deleteSuccess } = productDelete;
 
+  const productCreate = useSelector((state: State) => state.productCreate);
+  const { loading: createLoading, error: createError, success: createSuccess, product: createdProduct } = productCreate;
+
   const userLogin = useSelector((state: State) => state.userLogin);
   const { user } = userLogin;
 
   useEffect(() => {
-    if (user && user.isAdmin) {
-      dispatch(listProducts());
-    } else {
+    dispatch({ type: PRODUCT_CREATE_RESET });
+    if (!user?.isAdmin) {
       history.push('/login');
     }
-  }, [user, history, dispatch, deleteSuccess]);
+    if (createSuccess) {
+      history.push(`/admin/product/${createdProduct?._id}/edit`)
+    } else {
+      dispatch(listProducts())
+    }
+
+  }, [user, history, dispatch, deleteSuccess, createSuccess, createdProduct]);
 
   const deleteHandler = (id: string) => {
     if (window.confirm('Are you sure?')) {
@@ -34,7 +43,9 @@ const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ histo
     }
   }
 
-  const createHandler = () => { }
+  const createHandler = () => {
+    dispatch(createProduct());
+  }
 
   return (
     <>
@@ -44,6 +55,9 @@ const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ histo
           <Button className='my-3' onClick={createHandler}>创建产品</Button>
         </Col>
       </Row>
+
+      { createLoading && <Loading />}
+      { createError && <Message variant='danger'>{createError}</Message>}
 
       { deleteLoading && <Loading />}
       { deleteError && <Message variant='danger'>{deleteError}</Message>}
@@ -75,7 +89,7 @@ const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ histo
                         <td>{p.category}</td>
                         <td>{p.brand}</td>
                         <td>
-                          <LinkContainer to={`/admin/product/${p._id}`}>
+                          <LinkContainer to={`/admin/product/${p._id}/edit`}>
                             <Button variant='ligth' className='btn-sm'>
                               <i className='fas fa-edit'></i>
                             </Button>

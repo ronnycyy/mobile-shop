@@ -13,6 +13,8 @@ interface State {
   productList: ProductList,
   productDetails: ProductDetails,
   productDelete: ProductDelete,
+  productCreate: ProductCreate,
+  productUpdate: ProductUpdate,
   cart: Cart,
   userLogin: UserLogin,
   userRegister: UserRegister,
@@ -65,6 +67,28 @@ class ProductDetails extends BaseState {
 
   constructor(loading: boolean, product: Product | null, error: any) {
     super(loading, error);
+    this.product = product;
+  }
+}
+
+class ProductUpdate extends BaseState {
+  public success: boolean;
+  public product: Product | null;
+
+  constructor(loading: boolean, error: any, success: boolean, product: Product | null) {
+    super(loading, error);
+    this.success = success;
+    this.product = product;
+  }
+}
+
+class ProductCreate extends BaseState {
+  public success: boolean;
+  public product: Product | null;
+
+  constructor(loading: boolean, error: any, success: boolean, product: Product | null) {
+    super(loading, error);
+    this.success = success;
     this.product = product;
   }
 }
@@ -148,7 +172,9 @@ export {
   UserList,
   UserDelete,
   AdminUserEdit,
-  ProductDelete
+  ProductDelete,
+  ProductCreate,
+  ProductUpdate,
 };
 
 export type { State };
