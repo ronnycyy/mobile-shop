@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOrderById = exports.addOrderItems = void 0;
+exports.getOrders = exports.getOrderById = exports.addOrderItems = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var order_1 = __importDefault(require("../models/order"));
 // @desc    add order
@@ -74,7 +74,7 @@ var addOrderItems = express_async_handler_1.default(function (req, res) { return
     });
 }); });
 exports.addOrderItems = addOrderItems;
-// @desc    get orders
+// @desc    get order by id
 // @route   GET /api/order/:id
 // @access  private
 var getOrderById = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -96,3 +96,19 @@ var getOrderById = express_async_handler_1.default(function (req, res) { return 
     });
 }); });
 exports.getOrderById = getOrderById;
+// @desc    get all orders
+// @route   GET /api/orders
+// @access  private (only admin)
+var getOrders = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var orders;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, order_1.default.find({}).populate('user', 'id name')];
+            case 1:
+                orders = _a.sent();
+                res.json(orders);
+                return [2 /*return*/];
+        }
+    });
+}); });
+exports.getOrders = getOrders;

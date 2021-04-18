@@ -6,6 +6,7 @@ import connectDB from './config/db';
 import productRoutes from './routes/product';
 import userRoutes from './routes/user';
 import orderRoutes from './routes/order';
+import uploadRoutes from './routes/upload';
 import { errorHandler, notFound } from './middlewares/errorHandler';
 
 colors.enable();
@@ -19,6 +20,9 @@ const app = express();
 // 解析body的中间件
 app.use(express.json());
 
+
+const __dirname = path.resolve()
+
 app.use('/', express.static(path.join(__dirname, 'web')));
 
 // app.get('/', (req, res) => {
@@ -29,6 +33,10 @@ app.use('/', express.static(path.join(__dirname, 'web')));
 app.use('/api/products', productRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/order', orderRoutes);
+app.use('/api/upload', uploadRoutes);
+
+
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 // 如果上面的路由都没有匹配到，才会到这个中间件
 // 那就说明客户端的请求没有对上任意一个api，即没有找到接口

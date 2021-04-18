@@ -11,6 +11,7 @@ var db_1 = __importDefault(require("./config/db"));
 var product_1 = __importDefault(require("./routes/product"));
 var user_1 = __importDefault(require("./routes/user"));
 var order_1 = __importDefault(require("./routes/order"));
+var upload_1 = __importDefault(require("./routes/upload"));
 var errorHandler_1 = require("./middlewares/errorHandler");
 colors_1.default.enable();
 dotenv_1.default.config();
@@ -19,6 +20,7 @@ var PORT = process.env.PORT || 80;
 var app = express_1.default();
 // 解析body的中间件
 app.use(express_1.default.json());
+var __dirname = path_1.default.resolve();
 app.use('/', express_1.default.static(path_1.default.join(__dirname, 'web')));
 // app.get('/', (req, res) => {
 //   res.send(`welcome to server api`);
@@ -27,6 +29,8 @@ app.use('/', express_1.default.static(path_1.default.join(__dirname, 'web')));
 app.use('/api/products', product_1.default);
 app.use('/api/user', user_1.default);
 app.use('/api/order', order_1.default);
+app.use('/api/upload', upload_1.default);
+app.use('/uploads', express_1.default.static(path_1.default.join(__dirname, '/uploads')));
 // 如果上面的路由都没有匹配到，才会到这个中间件
 // 那就说明客户端的请求没有对上任意一个api，即没有找到接口
 app.use(errorHandler_1.notFound);

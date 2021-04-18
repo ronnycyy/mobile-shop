@@ -1,4 +1,4 @@
-import { ORDER_CREATE, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAILED, ORDER_DETAILS, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAILED } from './../../constant/order';
+import { ORDER_CREATE, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAILED, ORDER_DETAILS, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAILED, ORDER_LIST, ORDER_LIST_SUCCESS, ORDER_LIST_FAILED } from './../../constant/order';
 import { Dispatch } from "react";
 import Order from "../../models/Order";
 import Action from '../../models/Action';
@@ -56,6 +56,34 @@ export const getOrderById = (id: string) => async (dispatch: Dispatch<Action>, g
   } catch (error) {
     dispatch({
       type: ORDER_DETAILS_FAILED,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const listOrders = () => async (dispatch: Dispatch<Action>, getState: any) => {
+  try {
+    dispatch({ type: ORDER_LIST });
+
+    const { userLogin: { user } } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    }
+
+    const { data } = await axios.get(`/api/order`, config);
+
+    // const responseOrder = new Order(); // TODO: 维护返回值的类型
+
+    dispatch({ type: ORDER_LIST_SUCCESS, payload: data })
+
+  } catch (error) {
+    dispatch({
+      type: ORDER_LIST_FAILED,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

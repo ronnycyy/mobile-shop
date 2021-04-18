@@ -1,8 +1,8 @@
-import { orderCreateReducer, orderDetailsReducer } from './reducers/order';
+import { orderCreateReducer, orderDetailsReducer, orderListReducer } from './reducers/order';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { AdminUserEdit, Cart, OrderState, ProductCreate, ProductDelete, ProductDetails, ProductList, ProductUpdate, UserDelete, UserDetails, UserList, UserLogin, UserRegister } from '../models/State';
+import { AdminUserEdit, Cart, OrderList, OrderState, ProductCreate, ProductDelete, ProductDetails, ProductList, ProductUpdate, UserDelete, UserDetails, UserList, UserLogin, UserRegister } from '../models/State';
 import { cartReducer } from './reducers/cart';
 import { productCreateReducer, productDeleteReducer, productDetailsReducer, productListReducer, productUpdateReducer } from './reducers/product';
 import { adminUserEditReducer, userDeleteReducer, userDetailReducer, userListReducer, userLoginReducer, userRegisterReducer } from './reducers/user';
@@ -19,6 +19,7 @@ const reducer = combineReducers({
   userDetails: userDetailReducer,
   orderState: orderCreateReducer,
   orderDetails: orderDetailsReducer,
+  orderList: orderListReducer,
   userList: userListReducer,
   userDelete: userDeleteReducer,
   adminUserEdit: adminUserEditReducer
@@ -41,6 +42,7 @@ const initialState = {
   userDetails: new UserDetails(false, null, null, false),
   orderState: new OrderState(false, null, null, false),
   orderDetails: new OrderState(false, null, null, false),
+  orderList: new OrderList(false, [], null),
   userList: new UserList(false, [], null),
   userDelete: new UserDelete(false, false, null),
   adminUserEdit: new AdminUserEdit(false, false, null, null)

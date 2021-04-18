@@ -29,7 +29,7 @@ const addOrderItems = asyncHandler(async (req: any, res: Response) => {
   }
 })
 
-// @desc    get orders
+// @desc    get order by id
 // @route   GET /api/order/:id
 // @access  private
 const getOrderById = asyncHandler(async (req: any, res: Response) => {
@@ -45,4 +45,14 @@ const getOrderById = asyncHandler(async (req: any, res: Response) => {
   }
 })
 
-export { addOrderItems, getOrderById };
+// @desc    get all orders
+// @route   GET /api/orders
+// @access  private (only admin)
+const getOrders = asyncHandler(async (req: any, res: Response) => {
+
+  const orders = await Order.find({}).populate('user', 'id name');
+  res.json(orders);
+
+})
+
+export { addOrderItems, getOrderById, getOrders };

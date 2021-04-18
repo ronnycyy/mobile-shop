@@ -11,6 +11,9 @@ class Order {
   public user?: OrderUser;  // 订单归属用户
   public isDelivered?: boolean; //是否已发货
   public isPaid?: boolean;  //是否已支付
+  public createdAt?: string;
+  public paidAt?: string;
+  public deliveredAt?: string;
 
   constructor(orderItems: any[], shippingAddress: ShippingAddress, paymentMethod: string, itemsPrice: string, shippingPrice: string, totalPrice: string, _id: string) {
     this.orderItems = orderItems;

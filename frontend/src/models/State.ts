@@ -21,6 +21,7 @@ interface State {
   userDetails: UserDetails,
   orderState: OrderState,
   orderDetails: OrderState,
+  orderList: OrderList,
   userList: UserList,
   userDelete: UserDelete,
   adminUserEdit: AdminUserEdit
@@ -34,6 +35,15 @@ class OrderState extends BaseState {
     super(loading, error);
     this.order = order;
     this.success = success;
+  }
+}
+
+class OrderList extends BaseState {
+  public orders: Order[] = [];
+
+  constructor(loading: boolean, orders: Order[], error: any) {
+    super(loading, error);
+    this.orders = orders;
   }
 }
 
@@ -175,6 +185,7 @@ export {
   ProductDelete,
   ProductCreate,
   ProductUpdate,
+  OrderList
 };
 
 export type { State };

@@ -7,6 +7,6 @@ var order_1 = require("./../controllers/order");
 var express_1 = __importDefault(require("express"));
 var auth_1 = require("../middlewares/auth");
 var router = express_1.default.Router();
-router.route('/').post(auth_1.protect, order_1.addOrderItems);
+router.route('/').post(auth_1.protect, order_1.addOrderItems).get(auth_1.protect, auth_1.isAdmin, order_1.getOrders);
 router.route('/:id').get(auth_1.protect, order_1.getOrderById);
 exports.default = router;
