@@ -11,7 +11,7 @@ const Header = () => {
   const { user } = userLogin;
 
   const logoutHandler = () => {
-    dispatch(logout())
+    dispatch(logout());
   }
 
   const getUserDetailsHandler = () => {
@@ -45,9 +45,12 @@ const Header = () => {
                       <LinkContainer to='/profile'>
                         <NavDropdown.Item onClick={getUserDetailsHandler}>个人详情</NavDropdown.Item>
                       </LinkContainer>
-                      <NavDropdown.Item onClick={logoutHandler}>
-                        退出
+                      <LinkContainer to='/login'>
+                        <NavDropdown.Item onClick={logoutHandler}>
+                          退出
                       </NavDropdown.Item>
+                      </LinkContainer>
+
                     </NavDropdown>
                   )
                   :

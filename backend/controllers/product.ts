@@ -76,7 +76,7 @@ const createProductReviews = asyncHandler(async (req: any, res) => {
 
   if (product) {
     // 判断用户是否已评论，如果已评论，不能再评论
-    const alreadyReviewed = product.reviews.find((review: any) => review.user === req.user._id.toString());
+    const alreadyReviewed = product.reviews.find((review: any) => review.user.toString() === req.user._id.toString());
 
     if (alreadyReviewed) {
       res.status(400);

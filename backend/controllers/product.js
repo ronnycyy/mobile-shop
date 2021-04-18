@@ -144,11 +144,12 @@ var createProductReviews = express_async_handler_1.default(function (req, res) {
         switch (_b.label) {
             case 0:
                 _a = req.body, rating = _a.rating, comment = _a.comment;
+                console.log(req.user);
                 return [4 /*yield*/, product_1.default.findById(req.params.id)];
             case 1:
                 product = _b.sent();
                 if (!product) return [3 /*break*/, 3];
-                alreadyReviewed = product.reviews.find(function (review) { return review.user === req.user._id.toString(); });
+                alreadyReviewed = product.reviews.find(function (review) { return review.user.toString() === req.user._id.toString(); });
                 if (alreadyReviewed) {
                     res.status(400);
                     throw new Error('您已经评论过该产品');

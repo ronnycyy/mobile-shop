@@ -15,6 +15,7 @@ interface State {
   productDelete: ProductDelete,
   productCreate: ProductCreate,
   productUpdate: ProductUpdate,
+  productCreateReview: ProductCreateReview,
   cart: Cart,
   userLogin: UserLogin,
   userRegister: UserRegister,
@@ -82,6 +83,17 @@ class ProductDetails extends BaseState {
 }
 
 class ProductUpdate extends BaseState {
+  public success: boolean;
+  public product: Product | null;
+
+  constructor(loading: boolean, error: any, success: boolean, product: Product | null) {
+    super(loading, error);
+    this.success = success;
+    this.product = product;
+  }
+}
+
+class ProductCreateReview extends BaseState {
   public success: boolean;
   public product: Product | null;
 
@@ -185,6 +197,7 @@ export {
   ProductDelete,
   ProductCreate,
   ProductUpdate,
+  ProductCreateReview,
   OrderList
 };
 

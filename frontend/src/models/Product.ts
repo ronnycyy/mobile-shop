@@ -9,6 +9,7 @@ interface Product {
   countInStock: number,
   rating: number,
   numReviews: number,
+  reviews?: any[]
 }
 
 

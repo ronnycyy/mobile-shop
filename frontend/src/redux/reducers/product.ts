@@ -1,6 +1,6 @@
 import myAction from '../../models/Action';
-import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILED, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAILED, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAILED, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_CREATE_FAILED, PRODUCT_CREATE_RESET, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAILED, PRODUCT_UPDATE_RESET } from '../../constant/product';
-import { ProductList, ProductDetails, ProductDelete, ProductCreate, ProductUpdate } from '../../models/State';
+import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILED, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAILED, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAILED, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_CREATE_FAILED, PRODUCT_CREATE_RESET, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAILED, PRODUCT_UPDATE_RESET, PRODUCT_CREATE_REVIEW_REQUEST, PRODUCT_CREATE_REVIEW_SUCCESS, PRODUCT_CREATE_REVIEW_FAILED, PRODUCT_CREATE_REVIEW_RESET } from '../../constant/product';
+import { ProductList, ProductDetails, ProductDelete, ProductCreate, ProductUpdate, ProductCreateReview } from '../../models/State';
 
 const productListReducer = (state = new ProductList(false, [], null), action: myAction) => {
   switch (action.type) {
@@ -71,10 +71,26 @@ const productUpdateReducer = (state = new ProductUpdate(false, null, false, null
   }
 }
 
+const productReviewCreateReducer = (state = new ProductCreateReview(false, null, false, null), action: myAction) => {
+  switch (action.type) {
+    case PRODUCT_CREATE_REVIEW_REQUEST:
+      return new ProductCreateReview(true, null, false, null);
+    case PRODUCT_CREATE_REVIEW_SUCCESS:
+      return new ProductCreateReview(false, null, true, action.payload);
+    case PRODUCT_CREATE_REVIEW_FAILED: 
+      return new ProductCreateReview(false, action.payload, false, null);
+    case PRODUCT_CREATE_REVIEW_RESET:
+      return new ProductCreateReview(false, null, false, null);
+    default:
+      return state;
+  }
+}
+
 export {
   productListReducer,
   productDetailsReducer,
   productDeleteReducer,
   productCreateReducer,
-  productUpdateReducer
+  productUpdateReducer,
+  productReviewCreateReducer
 };
