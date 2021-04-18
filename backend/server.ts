@@ -2,6 +2,7 @@ import express from 'express';
 import colors from 'colors';
 import dotenv from 'dotenv';
 import path from 'path';
+import morgan from 'morgan';
 import connectDB from './config/db';
 import productRoutes from './routes/product';
 import userRoutes from './routes/user';
@@ -19,6 +20,10 @@ const app = express();
 
 // 解析body的中间件
 app.use(express.json());
+
+if (process.env.NODE_ENV) {
+  app.use(morgan('dev'));
+}
 
 
 const __dirname = path.resolve()
@@ -50,5 +55,5 @@ app.use(errorHandler);
 
 
 app.listen(PORT, () => {
-  console.log(`mode: "${process.env.NODE_ENV}". server running on http://localhost:${PORT}...`.green.underline.bold);
+  console.log(`mode: "${process.env.NODE_ENV ? process.env.NODE_ENV : 'production'}". server running on http://localhost:${PORT}...`.green.underline.bold);
 });

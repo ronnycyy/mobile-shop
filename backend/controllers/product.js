@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProduct = exports.createProduct = exports.deleteProductById = exports.getProductById = exports.getProducts = void 0;
+exports.createProductReviews = exports.updateProduct = exports.createProduct = exports.deleteProductById = exports.getProductById = exports.getProducts = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var product_1 = __importDefault(require("../models/product"));
 var product_2 = __importDefault(require("../models/product"));
@@ -135,6 +135,46 @@ var createProduct = express_async_handler_1.default(function (req, res, next) { 
     });
 }); });
 exports.createProduct = createProduct;
+// @desc    create product review
+// @route   POST /api/products/:id/reviews
+// @access  private
+var createProductReviews = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, rating, comment, product, alreadyReviewed, review;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, rating = _a.rating, comment = _a.comment;
+                return [4 /*yield*/, product_1.default.findById(req.params.id)];
+            case 1:
+                product = _b.sent();
+                if (!product) return [3 /*break*/, 3];
+                alreadyReviewed = product.reviews.find(function (review) { return review.user === req.user._id.toString(); });
+                if (alreadyReviewed) {
+                    res.status(400);
+                    throw new Error('您已经评论过该产品');
+                }
+                review = {
+                    name: req.user.name,
+                    rating: Number(rating),
+                    comment: comment,
+                    user: req.user._id
+                };
+                product.reviews.push(review);
+                product.numReviews = product.reviews.length;
+                product.rating = product.reviews.reduce(function (acc, review) { return acc + review.rating; }, 0) / product.reviews.length;
+                return [4 /*yield*/, product.save()];
+            case 2:
+                _b.sent();
+                res.status(201).json({ message: '评论成功' });
+                return [3 /*break*/, 4];
+            case 3:
+                res.status(404);
+                throw new Error("\u67E5\u8BE2\u4E0D\u5230\u4EA7\u54C1");
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.createProductReviews = createProductReviews;
 // @desc    update single product
 // @route   PUT /api/products/:id
 // @access  private (only admin)

@@ -7,6 +7,7 @@ var express_1 = __importDefault(require("express"));
 var colors_1 = __importDefault(require("colors"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var path_1 = __importDefault(require("path"));
+var morgan_1 = __importDefault(require("morgan"));
 var db_1 = __importDefault(require("./config/db"));
 var product_1 = __importDefault(require("./routes/product"));
 var user_1 = __importDefault(require("./routes/user"));
@@ -20,6 +21,9 @@ var PORT = process.env.PORT || 80;
 var app = express_1.default();
 // 解析body的中间件
 app.use(express_1.default.json());
+if (process.env.NODE_ENV) {
+    app.use(morgan_1.default('dev'));
+}
 var __dirname = path_1.default.resolve();
 app.use('/', express_1.default.static(path_1.default.join(__dirname, 'web')));
 // app.get('/', (req, res) => {
@@ -40,5 +44,5 @@ app.use(errorHandler_1.notFound);
 // 错误处理应该是最后的情况，因此后面不该有其他类型的中间件了
 app.use(errorHandler_1.errorHandler);
 app.listen(PORT, function () {
-    console.log(("mode: \"" + process.env.NODE_ENV + "\". server running on http://localhost:" + PORT + "...").green.underline.bold);
+    console.log(("mode: \"" + (process.env.NODE_ENV ? process.env.NODE_ENV : 'production') + "\". server running on http://localhost:" + PORT + "...").green.underline.bold);
 });

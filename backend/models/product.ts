@@ -1,9 +1,15 @@
 import mongoose from 'mongoose';
 
+// 评论表
 const reviewSchema = new mongoose.Schema({
-  name: { type: String, require: true },
-  rating: { type: Number, require: true },
-  comment: { type: String, require: true }
+  name: { type: String, require: true },  // 用户名称
+  rating: { type: Number, require: true },  // 评分
+  comment: { type: String, require: true },  // 评论信息
+  user: {   // 归属用户
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
 }, {
   timestamps: true
 })

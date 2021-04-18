@@ -12,4 +12,5 @@ router.route('/:id')
     .get(product_1.getProductById)
     .delete(auth_1.protect, auth_1.isAdmin, product_1.deleteProductById)
     .put(auth_1.protect, auth_1.isAdmin, product_1.updateProduct);
+router.route('/:id/reviews').post(auth_1.protect, product_1.createProductReviews);
 exports.default = router;

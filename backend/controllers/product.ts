@@ -66,6 +66,43 @@ const createProduct = asyncHandler(
   }
 )
 
+// @desc    create product review
+// @route   POST /api/products/:id/reviews
+// @access  private
+const createProductReviews = asyncHandler(async (req: any, res) => {
+  const { rating, comment } = req.body;
+
+  const product = await Product.findById(req.params.id);
+
+  if (product) {
+    // 判断用户是否已评论，如果已评论，不能再评论
+    const alreadyReviewed = product.reviews.find((review: any) => review.user === req.user._id.toString());
+
+    if (alreadyReviewed) {
+      res.status(400);
+      throw new Error('您已经评论过该产品')
+    }
+
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id
+    }
+
+    product.reviews.push(review);
+
+    product.numReviews = product.reviews.length;
+    product.rating = product.reviews.reduce((acc: any, review: any) => acc + review.rating, 0) / product.reviews.length;
+
+    await product.save();
+    res.status(201).json({ message: '评论成功' })
+  } else {
+    res.status(404);
+    throw new Error(`查询不到产品`)
+  }
+})
+
 
 // @desc    update single product
 // @route   PUT /api/products/:id
@@ -101,4 +138,4 @@ const updateProduct = asyncHandler(
   }
 )
 
-export { getProducts, getProductById, deleteProductById, createProduct, updateProduct }
+export { getProducts, getProductById, deleteProductById, createProduct, updateProduct, createProductReviews }
