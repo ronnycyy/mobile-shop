@@ -4,10 +4,10 @@ import { Dispatch } from 'redux';
 import { PRODUCT_LIST_REQUEST } from "../../constant/product"
 import axios from 'axios';
 
-const listProducts = () => async (dispatch: Dispatch<Action>) => {
+const listProducts = (keyword = '') => async (dispatch: Dispatch<Action>) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST })
-    const { data } = await axios.get('/api/products');
+    const { data } = await axios.get(`/api/products?keyword=${keyword}`);
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data })
   } catch (error) {
     dispatch({

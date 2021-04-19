@@ -40,7 +40,6 @@ app.use('/api/user', userRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 
-
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 // 如果上面的路由都没有匹配到，才会到这个中间件
