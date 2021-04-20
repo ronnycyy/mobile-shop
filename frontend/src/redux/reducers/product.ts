@@ -7,7 +7,13 @@ const productListReducer = (state = new ProductList(false, [], null), action: my
     case PRODUCT_LIST_REQUEST:
       return { loading: true, error: null, products: [] }
     case PRODUCT_LIST_SUCCESS:
-      return { loading: false, error: null, products: action.payload }
+      return {
+        loading: false,
+        error: null,
+        products: action.payload.products,
+        pages: action.payload.pages,
+        page: action.payload.page
+      }
     case PRODUCT_LIST_FAILED:
       return { loading: false, error: action.payload, products: state.products }
     default:
@@ -77,7 +83,7 @@ const productReviewCreateReducer = (state = new ProductCreateReview(false, null,
       return new ProductCreateReview(true, null, false, null);
     case PRODUCT_CREATE_REVIEW_SUCCESS:
       return new ProductCreateReview(false, null, true, action.payload);
-    case PRODUCT_CREATE_REVIEW_FAILED: 
+    case PRODUCT_CREATE_REVIEW_FAILED:
       return new ProductCreateReview(false, action.payload, false, null);
     case PRODUCT_CREATE_REVIEW_RESET:
       return new ProductCreateReview(false, null, false, null);

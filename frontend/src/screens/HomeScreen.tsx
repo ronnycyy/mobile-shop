@@ -6,19 +6,20 @@ import { listProducts } from '../redux/actions/product';
 import { State } from '../models/State';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 
 const HomeScreen = ({ match }: any) => {
   const keyword = match.params.keyword;
-  console.log(keyword);
+  const pageNumber = match.params.pageNumber || 1;
 
   const dispatch = useDispatch();
   const productList = useSelector((state: State) => state.productList);
-  const { loading, products, error } = productList;
+  const { loading, products, error, page, pages } = productList;
 
   // 组件初始化时调用，deps为空数组
   useEffect(() => {
-    dispatch(listProducts(keyword))
-  }, [dispatch, keyword])
+    dispatch(listProducts(keyword, pageNumber))
+  }, [dispatch, keyword, pageNumber])
 
 
   return <>
@@ -27,15 +28,18 @@ const HomeScreen = ({ match }: any) => {
     {
       loading ? <Loading /> : error ? <Message variant='danger' children={error} /> :
         (
-          <Row>
-            {
-              products.map((product: any) =>
-                <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
-                  <Product product={product} />
-                </Col>
-              )
-            }
-          </Row>
+          <>
+            <Row>
+              {
+                products.map((product: any) =>
+                  <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
+                    <Product product={product} />
+                  </Col>
+                )
+              }
+            </Row>
+            <Paginate page={page || 1} pages={pages || 1} keyword={keyword ? keyword : ''} isAdmin={false}/>
+          </>
         )
     }
 

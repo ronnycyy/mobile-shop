@@ -2,18 +2,21 @@ import React, { useEffect } from 'react'
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap';
-import { RouteComponentProps } from 'react-router-dom'
 import Loading from '../components/Loading';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 import { PRODUCT_CREATE_RESET } from '../constant/product';
 import Product from '../models/Product';
 import { State } from '../models/State';
 import { createProduct, deleteProduct, listProducts } from '../redux/actions/product';
 
-const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+const ProductListScreen = ({ history, match }: any) => {
+  const pageNumber = match.params.pageNumber || 1;
+
   const dispatch = useDispatch();
+
   const productList = useSelector((state: State) => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, pages, page } = productList;
 
   const productDelete = useSelector((state: State) => state.productDelete);
   const { loading: deleteLoading, error: deleteError, success: deleteSuccess } = productDelete;
@@ -32,10 +35,10 @@ const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ histo
     if (createSuccess) {
       history.push(`/admin/product/${createdProduct?._id}/edit`)
     } else {
-      dispatch(listProducts())
+      dispatch(listProducts('', pageNumber))
     }
 
-  }, [user, history, dispatch, deleteSuccess, createSuccess, createdProduct]);
+  }, [user, history, dispatch, deleteSuccess, createSuccess, createdProduct, pageNumber]);
 
   const deleteHandler = (id: string) => {
     if (window.confirm('Are you sure?')) {
@@ -68,41 +71,44 @@ const ProductListScreen: React.FunctionComponent<RouteComponentProps> = ({ histo
           error ?
             <Message variant='danger'>{error}</Message> :
             (
-              <Table striped bordered hover responsive className='table-sm'>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>产品名称</th>
-                    <th>价格</th>
-                    <th>类型</th>
-                    <th>品牌</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    products.map((p: Product) => (
-                      <tr key={p._id}>
-                        <td>{p._id}</td>
-                        <td>{p.name}</td>
-                        <td>{p.price}</td>
-                        <td>{p.category}</td>
-                        <td>{p.brand}</td>
-                        <td>
-                          <LinkContainer to={`/admin/product/${p._id}/edit`}>
-                            <Button variant='ligth' className='btn-sm'>
-                              <i className='fas fa-edit'></i>
+              <>
+                <Table striped bordered hover responsive className='table-sm'>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>产品名称</th>
+                      <th>价格</th>
+                      <th>类型</th>
+                      <th>品牌</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      products.map((p: Product) => (
+                        <tr key={p._id}>
+                          <td>{p._id}</td>
+                          <td>{p.name}</td>
+                          <td>{p.price}</td>
+                          <td>{p.category}</td>
+                          <td>{p.brand}</td>
+                          <td>
+                            <LinkContainer to={`/admin/product/${p._id}/edit`}>
+                              <Button variant='ligth' className='btn-sm'>
+                                <i className='fas fa-edit'></i>
+                              </Button>
+                            </LinkContainer>
+                            <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(p._id)}>
+                              <i className='fas fa-trash'></i>
                             </Button>
-                          </LinkContainer>
-                          <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(p._id)}>
-                            <i className='fas fa-trash'></i>
-                          </Button>
-                        </td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </Table>
+                          </td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </Table>
+                <Paginate page={page || 1} pages={pages || 1} keyword={''} isAdmin={true} />
+              </>
             )
       }
     </>

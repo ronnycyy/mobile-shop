@@ -65,6 +65,8 @@ class Cart extends BaseState {
 
 class ProductList extends BaseState {
   public products: Product[];
+  public page?= 1;  // 当前页码
+  public pages?= 1;  // 总页数
 
   constructor(loading: boolean, products: Product[], error: any) {
     super(loading, error);

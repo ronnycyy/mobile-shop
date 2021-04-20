@@ -58,20 +58,29 @@ var product_2 = __importDefault(require("../models/product"));
 // @route   GET /api/products
 // @access  public
 var getProducts = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var keyword, products;
+    var pageSize, page, keyword, count, products;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                pageSize = 4;
+                page = Number(req.query.pageNumber) || 1;
                 keyword = req.query.keyword ? {
                     name: {
                         $regex: req.query.keyword,
                         $options: 'i'
                     }
                 } : {};
-                return [4 /*yield*/, product_2.default.find(__assign({}, keyword))];
+                return [4 /*yield*/, product_1.default.countDocuments(__assign({}, keyword))];
             case 1:
+                count = _a.sent();
+                return [4 /*yield*/, product_1.default.find(__assign({}, keyword)).limit(pageSize).skip(pageSize * (page - 1))];
+            case 2:
                 products = _a.sent();
-                res.json(products);
+                res.json({
+                    products: products,
+                    page: page,
+                    pages: Math.ceil(count / pageSize) // 总页码数
+                });
                 return [2 /*return*/];
         }
     });

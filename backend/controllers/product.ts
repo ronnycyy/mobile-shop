@@ -7,6 +7,8 @@ import ProductModel from '../models/product';
 // @access  public
 const getProducts = asyncHandler(
   async (req, res) => {
+    const pageSize = 4;
+    const page = Number(req.query.pageNumber) || 1;
     const keyword = req.query.keyword ? {
       name: {
         $regex: req.query.keyword,
@@ -14,8 +16,13 @@ const getProducts = asyncHandler(
       }
     } : {};
 
-    const products = await ProductModel.find({ ...keyword });
-    res.json(products);
+    const count = await Product.countDocuments({ ...keyword });
+    const products = await Product.find({ ...keyword }).limit(pageSize).skip(pageSize * (page - 1));
+    res.json({
+      products,  // 过滤后的产品列表
+      page,  // 当前页码
+      pages: Math.ceil(count / pageSize)  // 总页码数
+    });
   }
 )
 
