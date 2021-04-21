@@ -50,7 +50,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProductReviews = exports.updateProduct = exports.createProduct = exports.deleteProductById = exports.getProductById = exports.getProducts = void 0;
+exports.getTopProducts = exports.createProductReviews = exports.updateProduct = exports.createProduct = exports.deleteProductById = exports.getProductById = exports.getProducts = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var product_1 = __importDefault(require("../models/product"));
 var product_2 = __importDefault(require("../models/product"));
@@ -235,3 +235,19 @@ var updateProduct = express_async_handler_1.default(function (req, res, next) { 
     });
 }); });
 exports.updateProduct = updateProduct;
+// @desc    fetch first 3 products
+// @route   GET /api/products/top
+// @access  public
+var getTopProducts = express_async_handler_1.default(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var products;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, product_1.default.find({}).sort({ price: 1 }).limit(3)];
+            case 1:
+                products = _a.sent();
+                res.json(products);
+                return [2 /*return*/];
+        }
+    });
+}); });
+exports.getTopProducts = getTopProducts;

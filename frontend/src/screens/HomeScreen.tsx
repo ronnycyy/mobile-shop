@@ -7,6 +7,9 @@ import { State } from '../models/State';
 import Loading from '../components/Loading';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
+import ProductsCarousel from '../components/ProductsCarousel';
+import Meta from '../components/Meta';
+import { Link } from 'react-router-dom';
 
 const HomeScreen = ({ match }: any) => {
   const keyword = match.params.keyword;
@@ -23,7 +26,17 @@ const HomeScreen = ({ match }: any) => {
 
 
   return <>
-    <h1>最新产品</h1>
+    <Meta />
+
+    {
+      keyword ?
+        (
+          <Link to='/' className='btn btn-dark'>返回主页</Link>
+        ) :
+        <ProductsCarousel />
+    }
+
+    { !keyword && <h1>最新产品</h1>}
 
     {
       loading ? <Loading /> : error ? <Message variant='danger' children={error} /> :
@@ -38,7 +51,7 @@ const HomeScreen = ({ match }: any) => {
                 )
               }
             </Row>
-            <Paginate page={page || 1} pages={pages || 1} keyword={keyword ? keyword : ''} isAdmin={false}/>
+            <Paginate page={page || 1} pages={pages || 1} keyword={keyword ? keyword : ''} isAdmin={false} />
           </>
         )
     }

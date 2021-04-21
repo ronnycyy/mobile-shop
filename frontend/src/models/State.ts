@@ -11,6 +11,7 @@ import Order from './Order';
 
 interface State {
   productList: ProductList,
+  productTopRate: ProductTopRate,
   productDetails: ProductDetails,
   productDelete: ProductDelete,
   productCreate: ProductCreate,
@@ -72,8 +73,17 @@ class ProductList extends BaseState {
     super(loading, error);
     this.products = products;
   }
-
 }
+
+class ProductTopRate extends BaseState {
+  public products: Product[];
+
+  constructor(loading: boolean, products: Product[], error: any) {
+    super(loading, error);
+    this.products = products;
+  }
+}
+
 
 class ProductDetails extends BaseState {
   public product: Product | null;
@@ -187,6 +197,7 @@ class UserDetails extends BaseState {
 
 export {
   ProductList,
+  ProductTopRate,
   ProductDetails,
   Cart,
   UserLogin,

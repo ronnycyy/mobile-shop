@@ -152,4 +152,14 @@ const updateProduct = asyncHandler(
   }
 )
 
-export { getProducts, getProductById, deleteProductById, createProduct, updateProduct, createProductReviews }
+// @desc    fetch first 3 products
+// @route   GET /api/products/top
+// @access  public
+const getTopProducts = asyncHandler(
+  async (req, res, next) => {
+    const products = await Product.find({}).sort({ price: 1 }).limit(3);
+    res.json(products);
+  }
+)
+
+export { getProducts, getProductById, deleteProductById, createProduct, updateProduct, createProductReviews, getTopProducts }

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Loading from '../components/Loading'
 import Message from '../components/Message'
+import Meta from '../components/Meta'
 import Rating from '../components/Rating'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constant/product'
 import { State } from '../models/State'
@@ -61,6 +62,8 @@ const ProductScreen = ({ history, match }: any) => {
         loading ? <Loading /> : error ? <Message variant='danger' children={error} /> :
           (
             <>
+              <Meta title={product?.name} />
+
               <Row>
                 <Col md={6}>
                   <Image src={product?.image} alt={product?.name} fluid></Image>

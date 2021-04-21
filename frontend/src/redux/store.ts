@@ -2,9 +2,9 @@ import { orderCreateReducer, orderDetailsReducer, orderListReducer } from './red
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { AdminUserEdit, Cart, OrderList, OrderState, ProductCreate, ProductCreateReview, ProductDelete, ProductDetails, ProductList, ProductUpdate, UserDelete, UserDetails, UserList, UserLogin, UserRegister } from '../models/State';
+import { AdminUserEdit, Cart, OrderList, OrderState, ProductCreate, ProductCreateReview, ProductDelete, ProductDetails, ProductList, ProductTopRate, ProductUpdate, UserDelete, UserDetails, UserList, UserLogin, UserRegister } from '../models/State';
 import { cartReducer } from './reducers/cart';
-import { productCreateReducer, productDeleteReducer, productDetailsReducer, productListReducer, productReviewCreateReducer, productUpdateReducer } from './reducers/product';
+import { productCreateReducer, productDeleteReducer, productDetailsReducer, productListReducer, productReviewCreateReducer, productTopRateReducer, productUpdateReducer } from './reducers/product';
 import { adminUserEditReducer, userDeleteReducer, userDetailReducer, userListReducer, userLoginReducer, userRegisterReducer } from './reducers/user';
 
 const reducer = combineReducers({
@@ -14,6 +14,7 @@ const reducer = combineReducers({
   productCreate: productCreateReducer,
   productUpdate: productUpdateReducer,
   productCreateReview: productReviewCreateReducer,
+  productTopRate: productTopRateReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
@@ -38,6 +39,7 @@ const initialState = {
   productCreate: new ProductCreate(false, null, false, null),
   productUpdate: new ProductUpdate(false, null, false, null),
   productCreateReview: new ProductCreateReview(false, null, false, null),
+  productTopRate: new ProductTopRate(false, [], null),
   cart: new Cart(false, cartItemsFromStorage, null, shippingAddress, paymentMethod),
   userLogin: new UserLogin(false, userFromStorage, null),
   userRegister: new UserRegister(false, null, null),
