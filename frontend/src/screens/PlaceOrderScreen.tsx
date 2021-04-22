@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import CheckoutSteps from '../components/CheckoutSteps'
 import Message from '../components/Message'
+import { ORDER_CREATE_RESET } from '../constant/order'
+import { USER_DETAILS_RESET } from '../constant/user'
 import Order from '../models/Order'
 import { State } from '../models/State'
 import { createOrder } from '../redux/actions/order'
@@ -33,8 +35,10 @@ const PlaceOrderScreen: React.FunctionComponent<RouteComponentProps> = ({ histor
   useEffect(() => {
     if (success) {
       history.push(`/order/${order?._id}`)
+      dispatch({ type: ORDER_CREATE_RESET })
+      dispatch({ type: USER_DETAILS_RESET })
     }
-  }, [history, order, success])
+  }, [history, order, success, dispatch])
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { ORDER_CREATE, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAILED, ORDER_DETAILS, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAILED, ORDER_LIST, ORDER_LIST_SUCCESS, ORDER_LIST_FAILED } from './../../constant/order';
+import { ORDER_CREATE, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAILED, ORDER_DETAILS, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAILED, ORDER_LIST, ORDER_LIST_SUCCESS, ORDER_LIST_FAILED, ORDER_CREATE_RESET } from './../../constant/order';
 import myAction from "../../models/Action";
 import { OrderList, OrderState } from '../../models/State';
 
@@ -11,6 +11,8 @@ export const orderCreateReducer = (state = new OrderState(false, null, null, fal
       return new OrderState(false, action.payload, null, true)
     case ORDER_CREATE_FAILED:
       return new OrderState(false, null, action.payload, false)
+    case ORDER_CREATE_RESET:
+      return new OrderState(false, null, null, false)
     default:
       return state;
   }

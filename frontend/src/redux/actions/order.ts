@@ -3,6 +3,7 @@ import { Dispatch } from "react";
 import Order from "../../models/Order";
 import Action from '../../models/Action';
 import axios from 'axios';
+import { CART_CLEAR_ITEMS } from '../../constant/cart';
 
 
 export const createOrder = (order: Order) => async (dispatch: Dispatch<Action>, getState: any) => {
@@ -24,6 +25,7 @@ export const createOrder = (order: Order) => async (dispatch: Dispatch<Action>, 
     // const responseOrder = new Order(); // TODO: 维护返回值的类型
 
     dispatch({ type: ORDER_CREATE_SUCCESS, payload: data })
+    dispatch({ type: CART_CLEAR_ITEMS })
 
   } catch (error) {
     dispatch({

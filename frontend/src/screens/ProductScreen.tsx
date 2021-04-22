@@ -6,7 +6,7 @@ import Loading from '../components/Loading'
 import Message from '../components/Message'
 import Meta from '../components/Meta'
 import Rating from '../components/Rating'
-import { PRODUCT_CREATE_REVIEW_RESET } from '../constant/product'
+import { PRODUCT_CREATE_REVIEW_RESET, PRODUCT_DETAILS_RESET } from '../constant/product'
 import { State } from '../models/State'
 import { createProductReview, listProductDetails } from '../redux/actions/product'
 
@@ -38,10 +38,10 @@ const ProductScreen = ({ history, match }: any) => {
       product?._id !== match.params.id ||
       reviewSuccess
     ) {
+      dispatch({ type: PRODUCT_DETAILS_RESET })
       dispatch(listProductDetails(match.params.id));
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
-
 
   }, [dispatch, match, reviewSuccess, product])
 

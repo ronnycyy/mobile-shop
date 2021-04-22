@@ -1,4 +1,4 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS } from './../../constant/cart';
+import { CART_ADD_ITEM, CART_CLEAR_ITEMS, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS } from './../../constant/cart';
 import myAction from "../../models/Action";
 import { Cart } from "../../models/State";
 import ShippingAddress from '../../models/ShippingAddress';
@@ -26,6 +26,12 @@ export const cartReducer = (state: Cart = new Cart(false, [], null, new Shipping
       return {
         ...state,
         cartItems: state.cartItems.filter((c) => c.product !== action.payload)
+      }
+    }
+    case CART_CLEAR_ITEMS: {
+      return {
+        ...state,
+        cartItems: []
       }
     }
     case CART_SAVE_SHIPPING_ADDRESS: {
