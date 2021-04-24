@@ -28,12 +28,6 @@ if (process.env.NODE_ENV) {
 
 const __dirname = path.resolve()
 
-app.use('/', express.static(path.join(__dirname, 'web')));
-
-// app.get('/', (req, res) => {
-//   res.send(`welcome to server api`);
-// });
-
 // 此处没有调用next，因此中间件不会往下走，除非抛出错误，那样就直接跳errorHandler
 app.use('/api/products', productRoutes);
 app.use('/api/user', userRoutes);
@@ -41,6 +35,18 @@ app.use('/api/order', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
+if (process.env.NODE_ENV !== 'development') {
+  app.use(express.static(path.join(__dirname, '/frontend/build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('development api running...');
+  })
+}
 
 // 如果上面的路由都没有匹配到，才会到这个中间件
 // 那就说明客户端的请求没有对上任意一个api，即没有找到接口

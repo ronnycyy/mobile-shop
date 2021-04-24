@@ -25,16 +25,23 @@ if (process.env.NODE_ENV) {
     app.use(morgan_1.default('dev'));
 }
 var __dirname = path_1.default.resolve();
-app.use('/', express_1.default.static(path_1.default.join(__dirname, 'web')));
-// app.get('/', (req, res) => {
-//   res.send(`welcome to server api`);
-// });
 // 此处没有调用next，因此中间件不会往下走，除非抛出错误，那样就直接跳errorHandler
 app.use('/api/products', product_1.default);
 app.use('/api/user', user_1.default);
 app.use('/api/order', order_1.default);
 app.use('/api/upload', upload_1.default);
 app.use('/uploads', express_1.default.static(path_1.default.join(__dirname, '/uploads')));
+if (process.env.NODE_ENV !== 'development') {
+    app.use(express_1.default.static(path_1.default.join(__dirname, '/frontend/build')));
+    app.get('*', function (req, res) {
+        res.sendFile(path_1.default.resolve(__dirname, 'frontend', 'build', 'index.html'));
+    });
+}
+else {
+    app.get('/', function (req, res) {
+        res.send('development api running...');
+    });
+}
 // 如果上面的路由都没有匹配到，才会到这个中间件
 // 那就说明客户端的请求没有对上任意一个api，即没有找到接口
 app.use(errorHandler_1.notFound);
