@@ -26,7 +26,7 @@ if (process.env.NODE_ENV) {
 }
 
 
-const __dirname = path.resolve()
+// const __dirname = path.resolve()
 
 app.use('/', express.static(path.join(__dirname, 'web')));
 
