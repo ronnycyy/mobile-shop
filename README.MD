@@ -1,12 +1,8 @@
 # mobile-shop
-手机商城
-
-## 编写初衷
-1. 本人是一名前端工程师，对`react`很感兴趣，但缺乏`react`项目的实战练习。
-2. 本人从事制造业，但对互联网有挺大的兴趣，因此开发一个互联网的电商项目。
+电子商务平台 - 手机商城
 
 ## 在线效果
-访问： [翼的商城](http://www.chenyunyi.cn)
+访问： [手机商城](http://www.chenyunyi.cn)
 
 ## 功能概览
 1. 首页
@@ -20,19 +16,34 @@
 9. 订单管理（管理员）
 
 ## 技术栈
-1. `NodeJS` + `Express` + `MongoDB` 搭建后台服务
-2. `React` + `Redux` + `Bootstrap` 前端页面
-3. `Typescript` 提供良好的类型检查
+- React：MVVM 框架，用于构建前端界面。
+- React Bootstrap：基于 React 的组件库。
+- Webpack：打包前端项目，生成静态文件。
+- Express：后端 Web 层框架，用于接收请求，进行处理。
+- Mongoose：为 MongoDB 定义数据模型。
+- Gulp：打包后端项目，编译 TS 语法。
+- Typescript：为 JS 提供良好的类型检查功能，能编译出高质量的 JS 代码。
 
-## 使用方法
-1. `git clone https://github.com/ronnycyy/mobile-shop.git`
-2. `cd mobile-shop/frontend`
-3. `yarn`
-5. `cd ..`
-3. `yarn`
-4. `yarn start`
+项目没有使用脚手架工具搭建，都是一步一步配置而成。
+
+## 开始使用
+#### 拉取项目
+`git clone https://github.com/ronnycyy/mobile-shop.git`
+
+#### 进入工作目录
+`cd cdfang-spider`
+
+#### 安装依赖
+`npm i`
+
+#### 启动项目，前端热更新，地址: localhost:8080
+`npm run dev`
+
+#### 生产环境打包
+`npm run build`
+
 
 ## 其他
-1. wx: 13823120793。我是RONNY，欢迎加我，交流技术，一起进步～
-2. 由于微信付款仅支持微信认证的商户，本人没有认证的商户号，所以支付流程未完成，后续会思考如何模拟支付
-3. 参考项目:`ms-react-mobile-shop`
+微信号: 13823120793。我是RONNY，欢迎加我，交流技术，一起进步～
+
+
