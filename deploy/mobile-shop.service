@@ -4,7 +4,7 @@ Description=mobile-shop.service
 After=network.target remote-fs.target nss-lookup.target
  
 [Service]
-Type=forking
+Type=simple
 PIDFile=/run/mobile-shop.pid
 ExecStart=/bin/setsid /usr/bin/node /opt/projects/mobile-shop/dist/app.js
 Restart=/bin/pkill node && /bin/setsid /usr/bin/node /opt/projects/mobile-shop/dist/app.js
