@@ -6,8 +6,8 @@ After=network.target remote-fs.target nss-lookup.target
 [Service]
 Type=forking
 PIDFile=/run/mobile-shop.pid
-ExecStart=/bin/setsid /usr/bin/node /opt/projects/new-mobile-shop/dist/app.js
-Restart=/bin/pkill node && /bin/setsid /usr/bin/node /opt/projects/new-mobile-shop/dist/app.js
+ExecStart=/bin/setsid /usr/bin/node /opt/projects/mobile-shop/dist/app.js
+Restart=/bin/pkill node && /bin/setsid /usr/bin/node /opt/projects/mobile-shop/dist/app.js
 ExecStop=/bin/pkill node
 ExecReload=
 PrivateTmp=true
