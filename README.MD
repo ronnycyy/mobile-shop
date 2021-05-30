@@ -31,7 +31,7 @@
 `git clone https://github.com/ronnycyy/mobile-shop.git`
 
 #### 进入工作目录
-`cd cdfang-spider`
+`cd mobile-shop`
 
 #### 安装依赖
 `npm i`
