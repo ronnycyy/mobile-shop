@@ -1,5 +1,5 @@
 # mobile-shop
-电子商务平台 - 手机商城
+手机商城管理系统（前后端）
 
 ## 在线效果
 访问： [手机商城](http://www.chenyunyi.cn)
